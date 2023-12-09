@@ -1,0 +1,6 @@
+node_modules
+.idea
+.DS_Store
+ui/build
+backend/bin
+backend/mobocker-extension*
