@@ -21,17 +21,18 @@ export function App() {
     setIsRunning(result?.stdout.trim() === 'running');
   };
 
+  const fetchBackendServiceLogs = async () => {
+    const result = await ddClient.docker.cli.exec('container', ['logs', 'oleksis_mobocker-extension-desktop-extension-service']);
+    setResponse(result?.stdout ?? '');
+  };
+
   const startBackendService = async () => {
     const result = await ddClient.docker.cli.exec('container', ['start', 'oleksis_mobocker-extension-desktop-extension-service']);
-    // setResponse(JSON.stringify(result));
-    setResponse('Mobocker container running...')
     setIsRunning(true);
   };
 
   const stopBackendService = async () => {
     const result = await ddClient.docker.cli.exec('container', ['stop', 'oleksis_mobocker-extension-desktop-extension-service']);
-    //setResponse(JSON.stringify(result));
-    setResponse('Mobocker container exited!')
     setIsRunning(false);
   };
 
@@ -45,7 +46,8 @@ export function App() {
 
   React.useEffect(() => {
     checkBackendServiceStatus();
-  }, []);
+    fetchBackendServiceLogs();
+  }, [isRunning]);
 
   return (
     <>
@@ -66,7 +68,7 @@ export function App() {
           label="Backend response"
           sx={{ width: 480 }}
           disabled
-          multiline
+          multiline={true}
           variant="outlined"
           minRows={5}
           value={response ?? ''}
