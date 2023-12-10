@@ -10,6 +10,6 @@
 [Docker Desktop program shuts down after a few minutes. Traced it to the Resource Saver as cause. ](https://github.com/docker/for-win/issues/13789#issuecomment-1821822102)
 
 💻 **PC requirements**
-- Docker Desktop: **v4.26.0**
+- Docker Desktop: **4.25.0** (126437)
 - RAM: **2MB**
 - CPU: **2**
