@@ -25,13 +25,13 @@ RUN npm run build
 FROM alpine
 LABEL org.opencontainers.image.title="Mobocker" \
     org.opencontainers.image.description="The dummest container, is the smaller running container to keep Docker daemon alive." \
-    org.opencontainers.image.vendor="Oleksis Fraga <oleksis.fraga at gmail.com>" \
+    org.opencontainers.image.vendor="Oleksis Fraga" \
     org.opencontainers.image.source="https://github.com/oleksis/mobocker-extension" \
     com.docker.desktop.extension.api.version="0.3.4" \
     com.docker.extension.screenshots="" \
-    com.docker.desktop.extension.icon="" \
+    com.docker.desktop.extension.icon="https://raw.githubusercontent.com/oleksis/mobocker-extension/main/docker.svg" \
     com.docker.extension.detailed-description="" \
-    com.docker.extension.publisher-url="" \
+    com.docker.extension.publisher-url="https://github.com/oleksis/mobocker-extension" \
     com.docker.extension.additional-urls="" \
     com.docker.extension.categories="" \
     com.docker.extension.changelog=""
