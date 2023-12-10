@@ -33,7 +33,7 @@ LABEL org.opencontainers.image.title="Mobocker" \
     {\"alt\": \"Home page - Mobocker - Start backend container\", \"url\": \"https://raw.githubusercontent.com/oleksis/mobocker-extension/main/docs/images/Mobocker-Home-Start.png\"} \
     ]" \
     com.docker.desktop.extension.icon="https://raw.githubusercontent.com/oleksis/mobocker-extension/main/docker.svg" \
-    com.docker.extension.detailed-description="<p><b>Mobocker</b>: It’s described as the “dummest container”, and its primary function is to keep the Docker daemon alive.</p> \
+    com.docker.extension.detailed-description="<p><b>Mobocker</b>: It's described as the “dummest container”, and its primary function is to keep the Docker daemon alive.</p> \
     <h2 id="-features">✨ Functionality</h2> \
     <ul> \
     <li>The extension is designed to keep the Docker engine running indefinitely. It's particularly useful when the Docker Desktop GUI is in “Engine running” mode</li> \
@@ -42,6 +42,12 @@ LABEL org.opencontainers.image.title="Mobocker" \
     <ul> \
     <li>If the Docker service on Windows is in “Resource Saver mode”, it automatically stops the Docker Desktop Linux VM when no containers are running for a certain period of time (default is 5 minutes).</li> \
     <li>However, if “Resource Saver mode” is on, the Docker Desktop GUI may crash and close unexpectedly</li> \
+    </ul> \
+    <h2 id="-pc-requirements">💻 PC requirements</h2> \
+    <ul> \
+    <li>Docker Desktop: <b>4.25.0</b> (126437)</li> \
+    <li>RAM: <b>3MB</b></li> \
+    <li>CPU: <b>2</b></li> \
     </ul>" \
     com.docker.extension.publisher-url="https://github.com/oleksis" \
     com.docker.extension.additional-urls="[ \
