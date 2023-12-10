@@ -11,5 +11,5 @@
 
 💻 **PC requirements**
 - Docker Desktop: **4.25.0** (126437)
-- RAM: **2MB**
+- RAM: **3MB**
 - CPU: **2**
