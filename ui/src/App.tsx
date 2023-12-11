@@ -36,12 +36,13 @@ export function App() {
     setIsRunning(false);
   };
 
-  const handleButtonClick = () => {
+  const handleButtonClick = async () => {
     if (isRunning) {
       stopBackendService();
     } else {
       startBackendService();
     }
+    await checkBackendServiceStatus();
   };
 
   React.useEffect(() => {
