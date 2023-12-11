@@ -10,7 +10,7 @@ import (
 
 func main() {
 	logger := log.New(os.Stdout, "", log.LstdFlags)
-	logger.Printf("Backend service started.")
+	logger.Println("Backend service started.")
 
 	// Set up signal handling
 	signalChannel := make(chan os.Signal, 1)
