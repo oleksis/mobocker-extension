@@ -1,5 +1,7 @@
 # Mobocker
 
+The dummest container, is the smaller running container to keep Docker daemon alive.
+
 ## ✨ **Functionality**
 
 - The extension is designed to keep the Docker engine running indefinitely. It's particularly useful when the Docker Desktop GUI is in _“Engine running”_ mode
@@ -16,3 +18,7 @@
 - Docker Desktop: **4.25.0** (126437)
 - RAM: **3MB**
 - CPU: **2**
+
+---
+
+Happy Dockering! 🐳
