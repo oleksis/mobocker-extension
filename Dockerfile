@@ -22,7 +22,7 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
 COPY ui /ui
 RUN npm run build
 
-FROM alpine
+FROM scratch
 LABEL org.opencontainers.image.title="Mobocker" \
     org.opencontainers.image.description="The dummest container, is the smaller running container to keep Docker daemon alive." \
     org.opencontainers.image.vendor="Oleksis Fraga" \
@@ -65,4 +65,4 @@ COPY docker-compose.yaml .
 COPY metadata.json .
 COPY docker.svg .
 COPY --from=client-builder /ui/build ui
-CMD /service
+CMD ["/service"]
