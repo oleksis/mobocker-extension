@@ -1,0 +1,35 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "Node",
+        "resolveJsonModule": true,
+        "lib": [
+            "ES2017",
+            "webworker"
+        ],
+        "sourceMap": true,
+        "rootDir": ".",
+        "outDir": "dist",
+        "skipLibCheck": true,
+        "types": [
+            "node",
+        ],
+        "jsx": "react"
+    },
+    "files": [
+        "extension.tsx"
+    ],
+    "ts-node": {
+        "compilerOptions": {
+            "module": "CommonJS",
+            "lib": [
+                "ES2020",
+                "DOM"
+            ],
+            "types": [
+                "node"
+            ]
+        }
+    }
+}
