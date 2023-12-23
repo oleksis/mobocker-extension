@@ -92,6 +92,27 @@ function MobockerComponent() {
   );
 }
 
+function isCloseToChristmas() {
+  const today = new Date();
+  const christmas = new Date(today.getFullYear(), 11, 25); // Christmas day
+  const differenceInDays = Math.floor(
+    (christmas.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
+  );
+  return differenceInDays <= 7; // change this to the number of days you consider "close" to Christmas
+}
+
+// Christmas component
+function ChristmasComponent() {
+  return (
+    <div>
+      <span role="img" aria-label="christmas-tree" style={{ fontSize: 50 }}>
+        🎄
+      </span>
+      <p>Merry Christmas!</p>
+    </div>
+  );
+}
+
 // Note: This line relies on Docker Desktop's presence as a host application.
 // If you're running this React app in a browser, it won't work properly.
 const client = createDockerDesktopClient();
@@ -184,6 +205,7 @@ export function App() {
         />
 
         {isRunning && <MobockerComponent key={Date.now()} />}
+        {isCloseToChristmas() && <ChristmasComponent />}
       </Stack>
     </>
   );
