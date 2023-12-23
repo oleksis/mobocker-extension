@@ -108,7 +108,7 @@ function ChristmasComponent() {
       <span role="img" aria-label="christmas-tree" style={{ fontSize: 50 }}>
         🎄
       </span>
-      <p>Merry Christmas!</p>
+      <p style={{ fontSize: 10 }}>Merry Christmas!</p>
     </div>
   );
 }
