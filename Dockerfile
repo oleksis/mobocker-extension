@@ -56,7 +56,7 @@ LABEL org.opencontainers.image.title="Mobocker" \
     {\"title\":\"Support\", \"url\":\"https://github.com/oleksis/mobocker-extension\"} \
     ]" \
     com.docker.extension.changelog="<ul>\
-    <li>Use the scratch base image for the backend service</li> \
+    <li>UI: Add the Mobocker Tamagoshi 🐳</li> \
     </ul>" \
     com.docker.extension.categories="utilities"
 
