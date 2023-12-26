@@ -132,7 +132,7 @@ function isCloseToChristmas() {
   const differenceInDays = Math.floor(
     (christmas.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
   );
-  return differenceInDays <= 7; // change this to the number of days you consider "close" to Christmas
+  return -2 < differenceInDays && differenceInDays < 7; // change this to the number of days you consider "close" to Christmas
 }
 
 // Christmas component
