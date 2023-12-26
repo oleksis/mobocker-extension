@@ -3,12 +3,31 @@ import Button from "@mui/material/Button";
 import { createDockerDesktopClient } from "@docker/extension-api-client";
 import { Stack, TextField, Typography } from "@mui/material";
 
-const initialSize = 20;
+const FACTOR = 0.0007;
+const DEFAULT_SIZE = 20;
 const finalSize = 200;
-const increaseNeeded = finalSize - initialSize;
+const increaseNeeded = finalSize - DEFAULT_SIZE;
 const secondsInAMonth = 60 * 60 * 24 * 30;
+const now = new Date();
+
+let elapsedTimeInSeconds = Math.floor(Date.now() / 1000);
+let nextMonth = now.getUTCMonth() + 1;
+let year = now.getUTCFullYear();
+
+if (nextMonth === 12) {
+  nextMonth = 0;
+  year++;
+}
+
+let endOfMonth = new Date(Date.UTC(year, nextMonth, 1));
+endOfMonth.setUTCMilliseconds(endOfMonth.getUTCMilliseconds() - 1);
+// const totalMilliseconds = endOfMonth.getTime();
+// const secondsLeft = Math.floor((endOfMonth.getTime() - now.getTime()) / 1000);
+
+const secondsSinceEpoch = Math.floor(Date.now() / 1000);
 const intervalInSeconds = 10;
-const SIZE_INCREMENT = increaseNeeded / (secondsInAMonth / intervalInSeconds); // global constant for size increment
+
+let sizeIncrement = increaseNeeded / (secondsSinceEpoch / intervalInSeconds); // global constant for size increment
 
 // Mobocker class
 class Mobocker {
@@ -16,12 +35,14 @@ class Mobocker {
   color: string;
   emoji: string;
   lifeTime: number;
+  isVisible: boolean;
 
-  constructor() {
+  constructor(initialSize: number = DEFAULT_SIZE) {
     this.size = initialSize; // size of the emoji for Mobocker
     this.color = "red"; // color of the Mobocker
     this.lifeTime = 4; // life time of the Mobocker is four months
     this.emoji = "🐳"; // emoji for Mobocker
+    this.isVisible = true;
   }
 
   // Function to increment the size of the emoji for Mobocker
@@ -36,12 +57,12 @@ class Mobocker {
 
   // Function to display the Mobocker
   display() {
-    return { emoji: this.emoji, size: this.size };
+    return { emoji: this.emoji, size: this.size, isVisible: this.isVisible };
   }
 }
 
 // Custom hook to manage Mobocker
-function useMobocker() {
+function useMobocker(initialSize: number) {
   const [mobocker, setMobocker] = React.useState(new Mobocker());
   const [elapsedTime, setElapsedTime] = React.useState(0); // time elapsed since the hook was first run
 
@@ -52,7 +73,7 @@ function useMobocker() {
       newMobocker.color = mobocker.color;
       newMobocker.lifeTime = mobocker.lifeTime;
       newMobocker.emoji = mobocker.emoji;
-      newMobocker.incrementSize(SIZE_INCREMENT);
+      newMobocker.incrementSize(sizeIncrement + FACTOR);
       newMobocker.changeColor();
       setMobocker(newMobocker);
 
@@ -71,19 +92,32 @@ function useMobocker() {
   return mobocker;
 }
 
-type MobockerEmojiProps = {
+interface MobockerEmojiProps {
   emoji: string;
   size: number;
-};
+  isVisible: boolean;
+}
 
 // MobockerEmoji component
-function MobockerEmoji({ emoji, size }: MobockerEmojiProps) {
-  return <span style={{ fontSize: size }}>{emoji}</span>;
+function MobockerEmoji({ emoji, size, isVisible }: MobockerEmojiProps) {
+  return (
+    <span
+      style={{ fontSize: `${size}px`, display: isVisible ? "block" : "none" }}
+    >
+      {emoji}
+    </span>
+  );
+}
+
+interface MobockerComponentProps {
+  initialSize: number;
+  isVisible: boolean;
 }
 
 // Mobocker component
-function MobockerComponent() {
-  const mobocker = useMobocker();
+function MobockerComponent({ initialSize, isVisible }: MobockerComponentProps) {
+  const mobocker = useMobocker(initialSize);
+  mobocker.isVisible = isVisible;
 
   return (
     <>
@@ -122,8 +156,9 @@ function useDockerDesktopClient() {
 }
 
 export function App() {
-  const [response, setResponse] = React.useState<string>();
+  const [response, setResponse] = React.useState<string>("");
   const [isRunning, setIsRunning] = React.useState<boolean>(true);
+  const [initialSize, setInitialSize] = React.useState<number>(DEFAULT_SIZE);
   const ddClient = useDockerDesktopClient();
 
   const checkBackendServiceStatus = async () => {
@@ -141,7 +176,54 @@ export function App() {
       "logs",
       "oleksis_mobocker-extension-desktop-extension-service",
     ]);
-    setResponse(result?.stdout ?? "");
+    const logs = result?.stdout ?? "";
+    setResponse(logs);
+    // Parse the last log entry
+    if (logs) {
+      const firstLog = logs.split(/\r?\n/).filter(Boolean)[0];
+      console.log(firstLog);
+
+      const firstLogDate = new Date(
+        firstLog.split(" ")[0] + " " + firstLog.split(" ")[1] + " UTC"
+      );
+      console.log(firstLogDate);
+
+      elapsedTimeInSeconds = Math.floor(
+        (Date.now() - firstLogDate.getTime()) / 1000
+      );
+
+      console.log(
+        `${Date.now()} ${increaseNeeded} ${endOfMonth.getTime()} ${secondsSinceEpoch} ${elapsedTimeInSeconds} ${
+          increaseNeeded /
+          ((endOfMonth.getTime() / 1000 -
+            secondsSinceEpoch -
+            elapsedTimeInSeconds) /
+            intervalInSeconds)
+        } ${
+          Math.max(
+            increaseNeeded /
+              (endOfMonth.getTime() / 1000 -
+                secondsSinceEpoch -
+                elapsedTimeInSeconds) /
+              intervalInSeconds,
+            sizeIncrement
+          ) + DEFAULT_SIZE
+        } ${sizeIncrement}`
+      );
+
+      let _initialSize = Math.max(
+        increaseNeeded /
+          (endOfMonth.getTime() / 1000 -
+            secondsSinceEpoch -
+            elapsedTimeInSeconds) /
+          intervalInSeconds,
+        sizeIncrement
+      );
+
+      sizeIncrement += _initialSize;
+
+      setInitialSize(sizeIncrement);
+    }
   };
 
   const startBackendService = async () => {
@@ -204,7 +286,8 @@ export function App() {
           value={response ?? ""}
         />
 
-        {isRunning && <MobockerComponent key={Date.now()} />}
+        <MobockerComponent initialSize={initialSize} isVisible={isRunning} />
+
         {isCloseToChristmas() && <ChristmasComponent />}
       </Stack>
     </>
