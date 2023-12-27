@@ -159,14 +159,30 @@ export function App() {
   const [response, setResponse] = React.useState<string>("");
   const [isRunning, setIsRunning] = React.useState<boolean>(true);
   const [initialSize, setInitialSize] = React.useState<number>(DEFAULT_SIZE);
+  const [mobockerC, setMobockerC] = React.useState<string>(
+    "oleksis_mobocker-extension-desktop-extension-service"
+  );
   const ddClient = useDockerDesktopClient();
+
+  const detectServerEngine = async () => {
+    const result = await ddClient.docker.cli.exec("version", [
+      "--format",
+      "{{(index .Server.Components 0).Name}}",
+    ]);
+
+    const serverEngine = result?.stdout ?? "";
+
+    if (serverEngine.trim() === "Podman Engine") {
+      setMobockerC("podman-desktop-ext-mobocker-mobocker-extension-1");
+    }
+  };
 
   const checkBackendServiceStatus = async () => {
     const result = await ddClient.docker.cli.exec("container", [
       "inspect",
       "--format",
       "{{.State.Status}}",
-      "oleksis_mobocker-extension-desktop-extension-service",
+      mobockerC,
     ]);
     setIsRunning(result?.stdout.trim() === "running");
   };
@@ -174,7 +190,7 @@ export function App() {
   const fetchBackendServiceLogs = async () => {
     const result = await ddClient.docker.cli.exec("container", [
       "logs",
-      "oleksis_mobocker-extension-desktop-extension-service",
+      mobockerC,
     ]);
     const logs = result?.stdout ?? "";
     setResponse(logs);
@@ -229,7 +245,7 @@ export function App() {
   const startBackendService = async () => {
     const result = await ddClient.docker.cli.exec("container", [
       "start",
-      "oleksis_mobocker-extension-desktop-extension-service",
+      mobockerC,
     ]);
     setIsRunning(true);
   };
@@ -237,7 +253,7 @@ export function App() {
   const stopBackendService = async () => {
     const result = await ddClient.docker.cli.exec("container", [
       "stop",
-      "oleksis_mobocker-extension-desktop-extension-service",
+      mobockerC,
     ]);
     setIsRunning(false);
   };
@@ -252,6 +268,7 @@ export function App() {
   };
 
   React.useEffect(() => {
+    detectServerEngine();
     checkBackendServiceStatus();
     fetchBackendServiceLogs();
   }, [isRunning]);
