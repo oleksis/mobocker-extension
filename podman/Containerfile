@@ -1,11 +1,41 @@
+FROM golang:1.21-alpine AS builder
+ENV CGO_ENABLED=0
+WORKDIR /backend
+COPY backend/go.* .
+RUN --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=cache,target=/root/.cache/go-build \
+    go mod download
+COPY backend/. .
+RUN --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=cache,target=/root/.cache/go-build \
+    go build -trimpath -ldflags="-s -w" -o bin/service
+
+FROM --platform=$BUILDPLATFORM node:18.12-alpine3.16 AS client-builder
+WORKDIR /extension
+# cache packages in layer
+COPY podman/package.json /extension/package.json
+COPY podman/package-lock.json /extension/package-lock.json
+RUN --mount=type=cache,target=/usr/src/app/.npm \
+    npm set cache /usr/src/app/.npm && \
+    npm ci
+# install
+COPY podman/. /extension
+RUN npm run build
+
 FROM scratch
 
 LABEL org.opencontainers.image.title="Mobocker" \
       org.opencontainers.image.description="The dummest container, is the smaller running container to keep Docker daemon alive." \
       org.opencontainers.image.vendor="Oleksis Fraga" \
-      io.podman-desktop.api.version=">= 0.12.0"
+      io.podman-desktop.api.version=">= 0.12.0" \
+      com.docker.desktop.extension.api.version="0.3.4"
 
-COPY package.json /extension/
-COPY docker.svg /extension/icon.png
+COPY --from=builder /backend/bin/service /
+COPY docker.svg .
+COPY docker-compose.yaml .
+COPY podman/metadata.json .
 # COPY README.md /extension/
-COPY dist /extension/dist
+COPY --from=client-builder /extension/package.json /extension/package-lock.json \
+    /extension/metadata.json /extension/docker.svg /extension/dist/. extension/
+
+CMD ["/service"]
