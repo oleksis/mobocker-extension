@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [react()],
   base: "./",
   build: {
+    target: 'esnext',
     outDir: "dist",
     rollupOptions: {
       external: [
