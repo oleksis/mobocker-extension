@@ -56,7 +56,7 @@ LABEL org.opencontainers.image.title="Mobocker" \
     {\"title\":\"Support\", \"url\":\"https://github.com/oleksis/mobocker-extension\"} \
     ]" \
     com.docker.extension.changelog="<ul>\
-    <li>UI: Detect Server Engine for Docker and Podman</li> \
+    <li>UI: Add reference to access the computed style of the component</li> \
     </ul>" \
     com.docker.extension.categories="utilities"
 
