@@ -56,7 +56,7 @@ LABEL org.opencontainers.image.title="Mobocker" \
     {\"title\":\"Support\", \"url\":\"https://github.com/oleksis/mobocker-extension\"} \
     ]" \
     com.docker.extension.changelog="<ul>\
-    <li>UI: Add reference to access the computed style of the component</li> \
+    <li>UI: Update the size (font) from elapsed time </li> \
     </ul>" \
     com.docker.extension.categories="utilities"
 

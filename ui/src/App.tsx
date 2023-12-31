@@ -38,7 +38,8 @@ class Mobocker {
   isVisible: boolean;
 
   constructor(initialSize: number = DEFAULT_SIZE) {
-    this.size = initialSize; // size of the emoji for Mobocker
+    this.size =
+      initialSize + increaseNeeded / elapsedTimeInSeconds / intervalInSeconds; // size of the emoji for Mobocker
     this.color = "red"; // color of the Mobocker
     this.lifeTime = 4; // life time of the Mobocker is four months
     this.emoji = "🐳"; // emoji for Mobocker
