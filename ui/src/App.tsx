@@ -100,8 +100,31 @@ interface MobockerEmojiProps {
 
 // MobockerEmoji component
 function MobockerEmoji({ emoji, size, isVisible }: MobockerEmojiProps) {
+  const spanRef = React.useRef<HTMLSpanElement>(null);
+
+  React.useEffect(() => {
+    if (spanRef.current) {
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (
+            mutation.type === "attributes" &&
+            mutation.attributeName === "style"
+          ) {
+            const fontSize = window.getComputedStyle(spanRef.current!).fontSize;
+            console.log(`Font size: ${fontSize}`);
+          }
+        });
+      });
+
+      observer.observe(spanRef.current, { attributes: true });
+      // Clean up the observer when the component unmounts
+      return () => observer.disconnect();
+    }
+  }, []);
+
   return (
     <span
+      ref={spanRef}
       style={{ fontSize: `${size}px`, display: isVisible ? "block" : "none" }}
     >
       {emoji}
