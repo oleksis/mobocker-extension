@@ -171,6 +171,25 @@ function ChristmasComponent() {
   );
 }
 
+function isNewYearWeek() {
+  const today = new Date();
+  const newYearDay = new Date(today.getFullYear(), 0, 1); // New Year's day
+  const differenceInDays = Math.floor(
+    (today.getTime() - newYearDay.getTime()) / (1000 * 60 * 60 * 24)
+  );
+  return 0 <= differenceInDays && differenceInDays < 7; // change this to the number of days you consider "close" to New Year
+}
+
+// New Year component
+function NewYearComponent() {
+  const year = new Date().getFullYear();
+  return (
+    <div>
+      <p style={{ fontSize: 10 }}>Whalecome New {year} 🎉</p>
+    </div>
+  );
+}
+
 // Note: This line relies on Docker Desktop's presence as a host application.
 // If you're running this React app in a browser, it won't work properly.
 const client = createDockerDesktopClient();
@@ -330,6 +349,7 @@ export function App() {
         <MobockerComponent initialSize={initialSize} isVisible={isRunning} />
 
         {isCloseToChristmas() && <ChristmasComponent />}
+        {isNewYearWeek() && <NewYearComponent />}
       </Stack>
     </>
   );
