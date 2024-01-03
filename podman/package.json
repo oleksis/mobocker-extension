@@ -13,7 +13,7 @@
   "name": "mobocker-extension",
   "displayName": "Mobocker",
   "description": "The dummest container, is the smaller running container to keep Docker daemon alive.",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "icon": "docker.svg",
   "publisher": "Oleksis Fraga",
   "private": true,
