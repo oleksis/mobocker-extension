@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 // import { createDockerDesktopClient } from "@docker/extension-api-client";
 import { Stack, TextField, Typography } from "@mui/material";
 
+import 'vite/modulepreload-polyfill';
 import * as podmanDesktopAPI from "@podman-desktop/api";
 
 const FACTOR = 0.0007;
