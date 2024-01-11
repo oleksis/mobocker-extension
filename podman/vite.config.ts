@@ -13,7 +13,10 @@ export default defineConfig({
       external: [
         '@podman-desktop/api',
         ...builtinModules.flatMap(p => [p, `node:${p}`]),
-      ]
+      ],
+      output: {
+        format: 'esm',
+      },
     },
   },
   server: {
