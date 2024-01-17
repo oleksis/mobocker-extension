@@ -49,6 +49,7 @@ class Mobocker {
   // Function to increment the size of the emoji for Mobocker
   incrementSize(hours: number) {
     this.size += hours;
+    localStorage.setItem("fontSize", `${this.size}`);
   }
 
   // Function to change the color of the Mobocker
@@ -64,7 +65,7 @@ class Mobocker {
 
 // Custom hook to manage Mobocker
 function useMobocker(initialSize: number) {
-  const [mobocker, setMobocker] = React.useState(new Mobocker());
+  const [mobocker, setMobocker] = React.useState(new Mobocker(initialSize));
   const [elapsedTime, setElapsedTime] = React.useState(0); // time elapsed since the hook was first run
 
   React.useEffect(() => {
@@ -102,6 +103,9 @@ interface MobockerEmojiProps {
 // MobockerEmoji component
 function MobockerEmoji({ emoji, size, isVisible }: MobockerEmojiProps) {
   const spanRef = React.useRef<HTMLSpanElement>(null);
+  const [emojiFontSize, setemojiFontSize] = React.useState(
+    localStorage.getItem("fontSize") || size
+  );
 
   React.useEffect(() => {
     if (spanRef.current) {
@@ -126,7 +130,10 @@ function MobockerEmoji({ emoji, size, isVisible }: MobockerEmojiProps) {
   return (
     <span
       ref={spanRef}
-      style={{ fontSize: `${size}px`, display: isVisible ? "block" : "none" }}
+      style={{
+        fontSize: `${emojiFontSize}px`,
+        display: isVisible ? "block" : "none",
+      }}
     >
       {emoji}
     </span>
@@ -201,7 +208,9 @@ function useDockerDesktopClient() {
 export function App() {
   const [response, setResponse] = React.useState<string>("");
   const [isRunning, setIsRunning] = React.useState<boolean>(true);
-  const [initialSize, setInitialSize] = React.useState<number>(DEFAULT_SIZE);
+  const [initialSize, setInitialSize] = React.useState<number>(
+    Number(localStorage.getItem("fontSize")) || DEFAULT_SIZE
+  );
   const [mobockerC, setMobockerC] = React.useState<string>(
     "oleksis_mobocker-extension-desktop-extension-service"
   );
