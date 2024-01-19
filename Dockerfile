@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 FROM golang:1.21-alpine AS builder
 ENV CGO_ENABLED=0
 WORKDIR /backend
@@ -56,7 +57,7 @@ LABEL org.opencontainers.image.title="Mobocker" \
     {\"title\":\"Support\", \"url\":\"https://github.com/oleksis/mobocker-extension\"} \
     ]" \
     com.docker.extension.changelog="<ul>\
-    <li>UI: Use local Storage for the MobockerEmoji font size </li> \
+    <li>UI: React to the font size every 10 seconds </li> \
     </ul>" \
     com.docker.extension.categories="utilities"
 
