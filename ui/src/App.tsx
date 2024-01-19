@@ -3,7 +3,6 @@ import Button from "@mui/material/Button";
 import { createDockerDesktopClient } from "@docker/extension-api-client";
 import { Stack, TextField, Typography } from "@mui/material";
 
-const FACTOR = 0.0007;
 const DEFAULT_SIZE = 20;
 const finalSize = 200;
 const increaseNeeded = finalSize - DEFAULT_SIZE;
@@ -75,7 +74,7 @@ function useMobocker(initialSize: number) {
       newMobocker.color = mobocker.color;
       newMobocker.lifeTime = mobocker.lifeTime;
       newMobocker.emoji = mobocker.emoji;
-      newMobocker.incrementSize(sizeIncrement + FACTOR);
+      newMobocker.incrementSize(sizeIncrement);
       newMobocker.changeColor();
       setMobocker(newMobocker);
 
@@ -103,9 +102,6 @@ interface MobockerEmojiProps {
 // MobockerEmoji component
 function MobockerEmoji({ emoji, size, isVisible }: MobockerEmojiProps) {
   const spanRef = React.useRef<HTMLSpanElement>(null);
-  const [emojiFontSize, setemojiFontSize] = React.useState(
-    localStorage.getItem("fontSize") || size
-  );
 
   React.useEffect(() => {
     if (spanRef.current) {
@@ -131,7 +127,7 @@ function MobockerEmoji({ emoji, size, isVisible }: MobockerEmojiProps) {
     <span
       ref={spanRef}
       style={{
-        fontSize: `${emojiFontSize}px`,
+        fontSize: `${size}px`,
         display: isVisible ? "block" : "none",
       }}
     >
