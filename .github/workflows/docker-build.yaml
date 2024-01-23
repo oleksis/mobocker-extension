@@ -2,9 +2,8 @@ name: docker-build
 
 on:
   push:
-    branches: ["main"]
     # Publish semver tags as releases.
-    tags: "/^\\d+\\.\\d+\\.\\d+$/"
+    tags: "[0-9]+.[0-9]+.[0-9]+"
 
 env:
   # github.repository as <account>/<repo>
