@@ -193,6 +193,23 @@ function NewYearComponent() {
   );
 }
 
+function isSanValentine(){
+  const today = new Date();
+  const newValentineDay = new Date(today.getFullYear(), 1, 14); // New Valentine's day
+  const differenceInDays = Math.floor((today.getTime() - newValentineDay.getTime()) / (1000 * 60 * 60 * 24));
+  return differenceInDays === -1 || differenceInDays === 0; // True if it is a day before or the same day as Valentine's day
+}
+
+// ValentineDay component
+function NewValentineDayComponent() {
+  const year = new Date().getFullYear();
+  return (
+    <div>
+      <p style={{ fontSize: 10 }}>💝 Happy Valentine Day 💘</p>
+    </div>
+  );
+}
+
 // Note: This line relies on Docker Desktop's presence as a host application.
 // If you're running this React app in a browser, it won't work properly.
 const client = createDockerDesktopClient();
@@ -355,6 +372,7 @@ export function App() {
 
         {isCloseToChristmas() && <ChristmasComponent />}
         {isNewYearWeek() && <NewYearComponent />}
+        {isSanValentine() && <NewValentineDayComponent />}
       </Stack>
     </>
   );

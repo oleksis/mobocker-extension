@@ -56,7 +56,7 @@ LABEL org.opencontainers.image.title="Mobocker" \
     {\"title\":\"Support\", \"url\":\"https://github.com/oleksis/mobocker-extension\"} \
     ]" \
     com.docker.extension.changelog="<ul>\
-    <li>[OpenPubkey] Signing image with SBOM and Provenance attestations </li> \
+    <li>[UI] Add NewValentineDayComponent </li> \
     </ul>" \
     com.docker.extension.categories="utilities"
 
