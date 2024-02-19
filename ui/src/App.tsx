@@ -102,6 +102,7 @@ interface MobockerEmojiProps {
 // MobockerEmoji component
 function MobockerEmoji({ emoji, size, isVisible }: MobockerEmojiProps) {
   const spanRef = React.useRef<HTMLSpanElement>(null);
+  const [age, setAge] = React.useState<number>(0);
 
   React.useEffect(() => {
     if (spanRef.current) {
@@ -113,6 +114,9 @@ function MobockerEmoji({ emoji, size, isVisible }: MobockerEmojiProps) {
           ) {
             const fontSize = window.getComputedStyle(spanRef.current!).fontSize;
             console.log(`Font size: ${fontSize}`);
+            const fontSizeNumber = parseInt(fontSize.replace("px", ""), 10);
+            // Set the age based on the fontSize, ensuring it's between 1 and 200
+            setAge(Math.min(Math.max(1, fontSizeNumber), 200));
           }
         });
       });
@@ -126,6 +130,7 @@ function MobockerEmoji({ emoji, size, isVisible }: MobockerEmojiProps) {
   return (
     <span
       ref={spanRef}
+      title={`Age: ${age}`}
       style={{
         fontSize: `${size}px`,
         display: isVisible ? "block" : "none",
@@ -193,10 +198,12 @@ function NewYearComponent() {
   );
 }
 
-function isSanValentine(){
+function isSanValentine() {
   const today = new Date();
   const newValentineDay = new Date(today.getFullYear(), 1, 14); // New Valentine's day
-  const differenceInDays = Math.floor((today.getTime() - newValentineDay.getTime()) / (1000 * 60 * 60 * 24));
+  const differenceInDays = Math.floor(
+    (today.getTime() - newValentineDay.getTime()) / (1000 * 60 * 60 * 24)
+  );
   return differenceInDays === -1 || differenceInDays === 0; // True if it is a day before or the same day as Valentine's day
 }
 
