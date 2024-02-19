@@ -56,7 +56,7 @@ LABEL org.opencontainers.image.title="Mobocker" \
     {\"title\":\"Support\", \"url\":\"https://github.com/oleksis/mobocker-extension\"} \
     ]" \
     com.docker.extension.changelog="<ul>\
-    <li>[UI] Add NewValentineDayComponent </li> \
+    <li>[UI] Add a tooltip to the __MobockerEmoji__ component that shows the age of the container based on the __fontSize__ </li> \
     </ul>" \
     com.docker.extension.categories="utilities"
 
