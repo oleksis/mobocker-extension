@@ -367,7 +367,7 @@ export function App() {
 
         <TextField
           label="Backend response"
-          sx={{ width: 480 }}
+          sx={{ width: 480, maxHeight: "100vh" }}
           disabled
           multiline={true}
           variant="outlined"
